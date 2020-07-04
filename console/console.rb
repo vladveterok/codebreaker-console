@@ -46,5 +46,5 @@ class Console
   end
 end
 
-# console = Console.new
-# console.interact
+console = Console.new
+console.interact

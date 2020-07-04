@@ -1,15 +1,9 @@
 # frozen_string_literal: true
 
 # game paths
-require 'yaml/store'
-require 'pathname'
-require_relative 'modules/validation'
-require_relative 'modules/file_loader'
-require_relative 'codebreaker/user'
-require_relative 'codebreaker/game'
-require_relative 'codebreaker/matchmaker'
 
 # console paths
+require 'codebreaker'
 require 'i18n'
 require_relative 'config/application'
 require_relative 'console/modules/statistics'
