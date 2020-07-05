@@ -25,7 +25,7 @@ class GameState < ConsoleState
     when 'hint'
       puts I18n.t(:show_hint, hint: @console.game.show_hint)
     when 'exit'
-      exit
+      raise ConsoleState::StopGame # exit
     else
       game_handler(input)
     end

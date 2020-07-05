@@ -2,6 +2,8 @@
 
 # Needs a class documentation
 class ConsoleState
+  class StopGame < StandardError; end
+
   def initialize(console)
     @console = console
   end

@@ -9,7 +9,8 @@ class GameMenuState < ConsoleState
       puts I18n.t(:game_menu_options)
 
       input = $stdin.gets.chomp.downcase
-      exit if input == 'exit'
+      # break if input == 'exit'
+
       menu(input)
     rescue Codebreaker::Validation::GameError => e
       puts e.message
@@ -19,12 +20,10 @@ class GameMenuState < ConsoleState
 
   def menu(input)
     case input
-    when 'start'
-      @console.change_state_to(:registration_state)
-    when 'rules'
-      puts I18n.t(:rules)
-    when 'stats'
-      puts @console.statistics
+    when 'start' then @console.change_state_to(:registration_state)
+    when 'rules' then puts I18n.t(:rules)
+    when 'stats' then puts @console.statistics
+    when 'exit' then raise ConsoleState::StopGame
     else
       puts I18n.t(:unexpected_command)
     end

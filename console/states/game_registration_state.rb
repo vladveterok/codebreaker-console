@@ -14,12 +14,12 @@ class GameRegistrationState < ConsoleState
   def ask_name
     puts I18n.t(:ask_user_name)
     input = $stdin.gets.chomp
-    input == 'exit' ? exit : input
+    input == 'exit' ? (raise ConsoleState::StopGame) : input
   end
 
   def ask_difficulty
     puts I18n.t(:ask_difficulty)
     input = $stdin.gets.chomp.downcase
-    input == 'exit' ? exit : input
+    input == 'exit' ? (raise ConsoleState::StopGame) : input
   end
 end

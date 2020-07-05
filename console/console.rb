@@ -22,7 +22,12 @@ class Console
   end
 
   def interact
-    @state.interact
+    loop do
+      @state.interact
+
+    rescue ConsoleState::StopGame
+      exit
+    end
   end
 
   def change_state_to(state)
