@@ -25,7 +25,7 @@ class GameState < ConsoleState
     when 'hint'
       puts I18n.t(:show_hint, hint: @console.game.show_hint)
     when 'exit'
-      raise ConsoleState::StopGame # exit
+      raise Console::StopGame # exit
     else
       game_handler(input)
     end
@@ -45,5 +45,9 @@ class GameState < ConsoleState
   def change_state
     @console.change_state_to(:won_state) if @console.game.won?
     @console.change_state_to(:lost_state) if @console.game.lost?
+  end
+
+  def handle_flow
+    super
   end
 end

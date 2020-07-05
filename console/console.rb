@@ -6,6 +6,8 @@ require_relative '../bootstrap'
 
 # Needs a class documentation
 class Console
+  class StopGame < StandardError; end
+
   include Statistics
 
   attr_reader :game
@@ -25,7 +27,7 @@ class Console
     loop do
       @state.interact
 
-    rescue ConsoleState::StopGame
+    rescue Console::StopGame
       exit
     end
   end

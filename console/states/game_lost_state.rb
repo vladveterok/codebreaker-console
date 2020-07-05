@@ -20,4 +20,8 @@ class GameLostState < ConsoleState
       handle_flow(input, method(:ask_new_game))
     end
   end
+
+  def handle_flow(input, method)
+    super
+  end
 end

@@ -23,9 +23,13 @@ class GameMenuState < ConsoleState
     when 'start' then @console.change_state_to(:registration_state)
     when 'rules' then puts I18n.t(:rules)
     when 'stats' then puts @console.statistics
-    when 'exit' then raise ConsoleState::StopGame
+    when 'exit' then raise Console::StopGame
     else
       puts I18n.t(:unexpected_command)
     end
+  end
+
+  def handle_flow
+    super
   end
 end
