@@ -4,8 +4,12 @@
 class GameState < ConsoleState
   def interact
     @console.game.start_new_game
+    play_game
+  end
+
+  def play_game
     loop do
-      change_state
+      change_state_if_won_or_lost
 
       puts I18n.t(:ask_guess)
       input = $stdin.gets.chomp
@@ -18,31 +22,24 @@ class GameState < ConsoleState
     end
   end
 
-  private
-
   def menu(input)
-    case input
-    when 'hint'
-      puts I18n.t(:show_hint, hint: @console.game.show_hint)
-    when 'exit'
-      raise Console::StopGame # exit
-    else
-      game_handler(input)
-    end
+    return puts I18n.t(:show_hint, hint: @console.game.show_hint) if input == 'hint'
+
+    input == 'exit' ? (raise Console::StopGame) : game_handler(input)
   end
 
   def game_handler(input)
     puts I18n.t(:your_guess_is, guess: input)
     @console.game.guess(input)
     puts "very secret code is #{@console.game.very_secret_code}" # for testing
-    puts I18n.t(:show_clues, clues: show_clues)
+    puts I18n.t(:show_clues, clues: show_fancy_clues)
   end
 
-  def show_clues
+  def show_fancy_clues
     @console.game.clues.map { |clue| Console::FANCY_CLUES[clue] }
   end
 
-  def change_state
+  def change_state_if_won_or_lost
     @console.change_state_to(:won_state) if @console.game.won?
     @console.change_state_to(:lost_state) if @console.game.lost?
   end

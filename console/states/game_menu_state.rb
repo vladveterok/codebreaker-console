@@ -5,13 +5,16 @@ class GameMenuState < ConsoleState
   def interact
     puts I18n.t(:introduction)
 
+    choose_from_menu
+  end
+
+  def choose_from_menu
     loop do
       puts I18n.t(:game_menu_options)
 
       input = $stdin.gets.chomp.downcase
-      # break if input == 'exit'
-
       menu(input)
+
     rescue Codebreaker::Validation::GameError => e
       puts e.message
       retry
@@ -23,13 +26,11 @@ class GameMenuState < ConsoleState
     when 'start' then @console.change_state_to(:registration_state)
     when 'rules' then puts I18n.t(:rules)
     when 'stats' then puts @console.statistics
-    when 'exit' then raise Console::StopGame
-    else
-      puts I18n.t(:unexpected_command)
+    else handle_flow(input, method(:choose_from_menu))
     end
   end
 
-  def handle_flow
+  def handle_flow(input, method)
     super
   end
 end
