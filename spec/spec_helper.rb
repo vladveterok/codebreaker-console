@@ -5,6 +5,7 @@ SimpleCov.start
 require 'stringio'
 
 # Substitutes name for a db file 'results.yml' while testing
+ENV['DB_PATH'] = "#{Pathname(__FILE__).parent.dirname.realpath}/db/"
 ENV['DB_FILE'] = 'results_test.yml'
 
 require_relative '../bootstrap'
@@ -40,4 +41,8 @@ RSpec.configure do |config|
   # inherited by the metadata hash of host groups and examples, rather than
   # triggering implicit auto-inclusion in groups with matching metadata.
   config.shared_context_metadata_behavior = :apply_to_host_groups
+
+  config.after(:suite) do # or :each or :all
+    FileUtils.rm_rf(Dir[ENV['DB_PATH']])
+  end
 end
