@@ -8,3 +8,5 @@ require_relative 'bootstrap'
 
 console = Console.new
 console.interact
+# gamereg = GameRegistrationState.new(console)
+# gamereg.interact

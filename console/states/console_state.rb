@@ -2,8 +2,10 @@
 
 # Needs a class documentation
 class ConsoleState
-  def initialize(console)
+  def initialize(console, input: $stdin, output: $stdout)
     @console = console
+    @input = input
+    @output = output
   end
 
   def handle_flow(input, method)

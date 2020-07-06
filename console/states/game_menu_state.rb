@@ -10,6 +10,7 @@ class GameMenuState < ConsoleState
       puts e.message
       retry
     rescue Console::StopGame
+      puts I18n.t(:bye_bye)
       break
     end
   end

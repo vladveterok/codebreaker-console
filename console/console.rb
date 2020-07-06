@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../bootstrap'
+
 # Needs a class documentation
 class Console
   class StopGame < StandardError; end

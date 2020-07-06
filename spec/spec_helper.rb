@@ -42,7 +42,7 @@ RSpec.configure do |config|
   # triggering implicit auto-inclusion in groups with matching metadata.
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
-  config.after(:suite) do # or :each or :all
+  config.after(:suite) do # or :each or :all or :suite
     FileUtils.rm_rf(Dir[ENV['DB_PATH']])
   end
 end

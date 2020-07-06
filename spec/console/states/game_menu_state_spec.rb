@@ -6,7 +6,7 @@ RSpec.describe GameMenuState do
 
   describe '#interact' do
     context 'when starting interraction' do
-      let(:input) { StringIO.new(' ') }
+      let(:input) { StringIO.new('exit') }
       let(:output_message) { I18n.t(:introduction) + I18n.t(:game_menu_options) + I18n.t(:unexpected_command) }
       before do
         $stdin = STDIN
@@ -15,12 +15,13 @@ RSpec.describe GameMenuState do
       end
 
       it 'shows intro, options, and "unexpected_command"' do
-        expect { subject.interact }.to output(output_message).to_stdout
+        expect { console.interact }.to output(output_message).to_stdout
       end
     end
 
     context 'when input is exit' do
       let(:input) { StringIO.new('exit') }
+      let(:output_message) { I18n.t(:bye_bye) }
       before do
         $stdin = STDIN
         $stdin = input
@@ -28,7 +29,7 @@ RSpec.describe GameMenuState do
       end
 
       it 'exits' do
-        expect { subject.interact }.to raise_error(SystemExit)
+        expect { console.interact }.to output(output_message).to_stdout
       end
     end
   end

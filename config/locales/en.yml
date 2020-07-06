@@ -1,6 +1,8 @@
 en:
   unexpected_command: "\nYou have passed unexpected command. Please choose one from listed commands\n"
 
+  bye_bye: "\nBye-bye, mate! Thanks for nothing!"
+
 # GameMenuState:
   rules: "\n===============RULES==============
     \nIn Codebreaker you'll, well, you'll obviously break a SECRET CODE created by me. Yes, human, Me.\nMy ENIGMATIC CODE will be of four digits, each between 1 and 6.
