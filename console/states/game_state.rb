@@ -25,10 +25,10 @@ class GameState < ConsoleState
   def menu(input)
     return puts I18n.t(:show_hint, hint: @console.game.show_hint) if input == 'hint'
 
-    input == 'exit' ? (raise Console::StopGame) : game_handler(input)
+    input == 'exit' ? (raise Console::StopGame) : guess_handler(input)
   end
 
-  def game_handler(input)
+  def guess_handler(input)
     puts I18n.t(:your_guess_is, guess: input)
     @console.game.guess(input)
     puts "very secret code is #{@console.game.very_secret_code}" # for testing
