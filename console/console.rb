@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-ENV['DB_FILE'] = 'results.yml'
-
-require_relative '../bootstrap'
-
 # Needs a class documentation
 class Console
   class StopGame < StandardError; end
@@ -24,12 +20,7 @@ class Console
   end
 
   def interact
-    loop do
-      @state.interact
-
-    rescue Console::StopGame
-      exit
-    end
+    @state.interact
   end
 
   def change_state_to(state)
@@ -52,6 +43,3 @@ class Console
     @game = Codebreaker::Game.new(difficulty: difficulty, user: user)
   end
 end
-
-console = Console.new
-console.interact

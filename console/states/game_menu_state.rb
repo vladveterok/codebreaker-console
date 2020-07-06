@@ -4,21 +4,21 @@
 class GameMenuState < ConsoleState
   def interact
     puts I18n.t(:introduction)
-
-    choose_from_menu
-  end
-
-  def choose_from_menu
     loop do
-      puts I18n.t(:game_menu_options)
-
-      input = $stdin.gets.chomp.downcase
-      menu(input)
-
+      choose_from_menu
     rescue Codebreaker::Validation::GameError => e
       puts e.message
       retry
+    rescue Console::StopGame
+      break
     end
+  end
+
+  def choose_from_menu
+    puts I18n.t(:game_menu_options)
+
+    input = $stdin.gets.chomp.downcase
+    menu(input)
   end
 
   def menu(input)
