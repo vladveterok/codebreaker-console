@@ -9,13 +9,12 @@ class GameState < ConsoleState
 
   def play_game
     loop do
-      change_state_if_won_or_lost
-
       puts I18n.t(:ask_guess)
       input = $stdin.gets.chomp
 
       menu(input)
 
+      break if @console.game.lost?
     rescue Codebreaker::Validation::GameError => e
       puts e.message
       retry
@@ -26,12 +25,14 @@ class GameState < ConsoleState
     return puts I18n.t(:show_hint, hint: @console.game.show_hint) if input == 'hint'
 
     input == 'exit' ? (raise Console::StopGame) : guess_handler(input)
+
+    change_state_if_won_or_lost
   end
 
   def guess_handler(input)
     puts I18n.t(:your_guess_is, guess: input)
     @console.game.guess(input)
-    puts "very secret code is #{@console.game.very_secret_code}" # for testing
+    # puts "very secret code is #{@console.game.very_secret_code}" # for testing
     puts I18n.t(:show_clues, clues: show_fancy_clues)
   end
 
@@ -42,6 +43,7 @@ class GameState < ConsoleState
   def change_state_if_won_or_lost
     @console.change_state_to(:won_state) if @console.game.won?
     @console.change_state_to(:lost_state) if @console.game.lost?
+    # @console.game.lost? ? @console.change_state_to(:lost_state) : play_game
   end
 
   def handle_flow

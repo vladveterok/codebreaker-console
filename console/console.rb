@@ -8,6 +8,7 @@ class Console
 
   include Statistics
 
+  attr_reader :user
   attr_reader :game
   attr_reader :state
 
@@ -19,6 +20,16 @@ class Console
 
   def initialize
     @state = states(:menu_state)
+    @user = nil
+    @game = nil
+  end
+
+  def create_user(name:)
+    @user = Codebreaker::User.new(name: name)
+  end
+
+  def create_game(difficulty:)
+    @game = Codebreaker::Game.new(difficulty: difficulty, user: @user)
   end
 
   def interact
@@ -41,7 +52,7 @@ class Console
     states[state].new(self)
   end
 
-  def init_game(difficulty:, user:)
-    @game = Codebreaker::Game.new(difficulty: difficulty, user: user)
-  end
+  # def init_game(difficulty:, user:)
+  #  @game = Codebreaker::Game.new(difficulty: difficulty, user: user)
+  # end
 end

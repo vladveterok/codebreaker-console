@@ -4,15 +4,15 @@
 class GameRegistrationState < ConsoleState
   def interact
     create_game_instances
-  end
-
-  def create_game_instances
-    user ||= Codebreaker::User.new(name: ask_name) # user_name ||= ask_name
-    @console.init_game(user: user, difficulty: ask_difficulty)
     @console.change_state_to(:game_state)
   rescue Codebreaker::Validation::GameError => e
     puts e.message
     retry
+  end
+
+  def create_game_instances
+    @console.create_user(name: ask_name) unless @console.user
+    @console.create_game(difficulty: ask_difficulty)
   end
 
   def ask_name
