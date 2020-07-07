@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'timeout'
-
 RSpec.describe GameState do
   subject { GameState.new(console) }
   let(:console) { Console.new }
