@@ -43,7 +43,6 @@ class GameState < ConsoleState
   def change_state_if_won_or_lost
     @console.change_state_to(:won_state) if @console.game.won?
     @console.change_state_to(:lost_state) if @console.game.lost?
-    # @console.game.lost? ? @console.change_state_to(:lost_state) : play_game
   end
 
   def handle_flow
