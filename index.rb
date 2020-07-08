@@ -7,9 +7,9 @@ ENV['DB_FILE'] = 'results.yml'
 require_relative 'bootstrap'
 
 console = Console.new
-# console.interact
-gamereg = GameRegistrationState.new(console)
-gamereg.interact
+console.interact
+# gamereg = GameRegistrationState.new(console)
+# gamereg.interact
 
 # playgame = GameState.new(console)
 # playgame.play_game

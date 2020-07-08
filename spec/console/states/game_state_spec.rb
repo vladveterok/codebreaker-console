@@ -20,7 +20,7 @@ RSpec.describe GameState do
 
     it 'shows NoHintsLeft error' do
       subject.menu(input)
-      expect { subject.menu(input) }.to raise_error(Codebreaker::Validation::NoHintsLeft)
+      expect { subject.menu(input) }.to raise_error(Codebreaker::Validation::NoHintsLeft, 'No hints left, mate')
     end
 
     it 'stops the game' do

@@ -14,11 +14,13 @@ class GameMenuState < ConsoleState
   end
 
   def choose_from_menu
-    puts I18n.t(:game_menu_options)
+    loop do
+      puts I18n.t(:game_menu_options)
 
-    input = $stdin.gets.chomp.downcase
-    menu(input)
-    choose_from_menu
+      input = $stdin.gets.chomp.downcase
+
+      menu(input)
+    end
   end
 
   def menu(input)

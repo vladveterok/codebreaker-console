@@ -27,7 +27,7 @@ RSpec.describe Console do
     context 'when won and was not saved' do
       let(:input) { %w[start TestFoo2 easy 4444 no exit] }
 
-      it { expect(subject.statistics[6]).to be(nil) }
+      it { expect { subject.statistics }.to raise_error(Codebreaker::Validation::NoSavedData) }
     end
   end
 end

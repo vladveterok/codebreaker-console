@@ -6,3 +6,4 @@
 *txt
 *yaml
 .DS_Store
+.byebug_history

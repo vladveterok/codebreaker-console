@@ -21,6 +21,7 @@ RSpec.describe GameLostState do
 
   context 'whis user input' do
     before { allow($stdin).to receive(:gets).and_return(*input) }
+    before { allow(method).to receive(:call) }
 
     context '#ask_new_game' do
       let(:input) { 'yes' }
@@ -39,9 +40,17 @@ RSpec.describe GameLostState do
       end
     end
 
-    context '#handle_flow' do
+    context 'when inputting icorrectly' do
       let(:input) { 'incorrect' }
-      before { allow(method).to receive(:call) }
+
+      it 'calls handle_flow' do
+        expect(subject).to receive(:handle_flow)
+        subject.ask_new_game
+      end
+    end
+
+    context 'when calling handle_flow' do
+      let(:input) { 'incorrect' }
 
       it { expect { subject.handle_flow(input, method) }.to output(I18n.t(:unexpected_command)).to_stdout }
     end

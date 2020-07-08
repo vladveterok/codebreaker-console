@@ -6,31 +6,25 @@ RSpec.describe GameMenuState do
 
   describe '#interact' do
     context 'when starting interraction' do
-      let(:input) { StringIO.new('exit') }
-      let(:output_message) { I18n.t(:introduction) + I18n.t(:game_menu_options) + I18n.t(:unexpected_command) }
-      before do
-        $stdin = STDIN
-        $stdin = input
-        allow(subject).to receive(:loop).and_yield
-      end
+      let(:output_message) { I18n.t(:introduction) }
+      before { allow_any_instance_of(described_class).to receive(:choose_from_menu) }
 
-      it 'shows intro, options, and "unexpected_command"' do
+      it 'shows intro message' do
         expect { console.interact }.to output(output_message).to_stdout
       end
     end
 
     context 'when input is exit' do
-      let(:input) { StringIO.new('exit') }
-      let(:output_message) { I18n.t(:bye_bye) }
-      before do
-        $stdin = STDIN
-        $stdin = input
-        allow(subject).to receive(:loop).and_yield
-      end
-
       it 'exits' do
-        expect { console.interact }.to output(output_message).to_stdout
+        expect { subject.menu('exit') }.to raise_error(Console::StopGame)
       end
+    end
+  end
+
+  describe '#choose_from_menu' do
+    it 'calls choose_from_menu' do
+      expect(subject).to receive(:choose_from_menu)
+      subject.interact
     end
   end
 
@@ -43,13 +37,18 @@ RSpec.describe GameMenuState do
     context 'when input is "stats" and stats are empty' do
       let(:input) { 'stats' }
       it 'raises NoSavedData error' do
-        expect { subject.menu(input) }.to raise_error(Codebreaker::Validation::NoSavedData)
+        expect { subject.menu(input) }.to raise_error('No saved data is found')
       end
     end
 
     context 'when input is incorrectttt' do
       let(:input) { 'statttts' }
-      it { expect { subject.menu(input) }.to output(I18n.t(:unexpected_command)).to_stdout }
+      let(:method) { double('method') }
+      before { allow($stdin).to receive(:gets).and_return(*input) }
+      before { allow(method).to receive(:call) }
+      it 'show unexpected command error' do
+        expect { subject.handle_flow(input, method) }.to output(I18n.t(:unexpected_command)).to_stdout
+      end
     end
 
     context 'when input is "start"' do

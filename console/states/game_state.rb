@@ -14,7 +14,7 @@ class GameState < ConsoleState
 
       menu(input)
 
-      break if @console.game.lost?
+      # break if @console.game.lost?
     rescue Codebreaker::Validation::GameError => e
       puts e.message
       retry
@@ -43,9 +43,5 @@ class GameState < ConsoleState
   def change_state_if_won_or_lost
     @console.change_state_to(:won_state) if @console.game.won?
     @console.change_state_to(:lost_state) if @console.game.lost?
-  end
-
-  def handle_flow
-    super
   end
 end

@@ -4,7 +4,8 @@
 class GameRegistrationState < ConsoleState
   def interact
     create_game_instances
-    @console.change_state_to(:game_state)
+    change_state_to(:game_state)
+    # @console.change_state_to(:game_state)
   rescue Codebreaker::Validation::GameError => e
     puts e.message
     retry
@@ -25,9 +26,5 @@ class GameRegistrationState < ConsoleState
     puts I18n.t(:ask_difficulty)
     input = $stdin.gets.chomp.downcase
     input == 'exit' ? (raise Console::StopGame) : input
-  end
-
-  def handle_flow
-    super
   end
 end

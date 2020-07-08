@@ -13,6 +13,10 @@ class ConsoleState
     method.call
   end
 
+  def change_state_to(state)
+    @console.change_state_to(state)
+  end
+
   def interact
     raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
   end
