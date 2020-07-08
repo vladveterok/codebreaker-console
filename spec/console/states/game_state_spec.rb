@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe GameState do
-  subject { GameState.new(console) }
+  subject { described_class.new(console) }
   let(:console) { Console.new }
 
   before do
@@ -35,9 +35,10 @@ RSpec.describe GameState do
 
   context '#guess_handler' do
     context 'when invalid guess is made' do
-      let(:input) { %w[11 12345 00 4567 0000] }
+      # all the types of invalid guess :)
+      let(:input) { %w[11 12345 00 4567 0000 foobar] }
 
-      it 'raises InvalidGuess error' do
+      it "raises InvalidGuess error #{:input.length} times" do
         input.length.times do |number|
           expect { subject.guess_handler(input[number]) }.to raise_error(Codebreaker::Validation::InvalidGuess)
         end
@@ -45,37 +46,34 @@ RSpec.describe GameState do
     end
 
     context 'when guess is valid' do
+      let(:clues) { I18n.t(:show_clues, clues: subject.show_fancy_clues) }
       it 'shows player their guess' do
         expect { subject.guess_handler('1234') }.to output(/1234/).to_stdout
       end
 
       it 'shows player clues' do
         expect { subject.guess_handler('1234') }
-          .to output(/#{I18n.t(:show_clues, clues: subject.show_fancy_clues)}/).to_stdout
+          .to output(/#{clues}/).to_stdout
       end
     end
   end
 
   context '#change_state_if_won_or_lost' do
-    it 'checks if game won or lost' do
-      expect(subject).to receive(:change_state_if_won_or_lost)
-      subject.menu('4444')
+    context 'when won' do
+      after { subject.menu('4444') }
+      it { expect(subject).to receive(:change_state_if_won_or_lost) }
+      it { expect(console).to receive(:change_state_to).with(:won_state) }
     end
 
-    it 'changes status to "won"' do
-      expect(console).to receive(:change_state_to).with(:won_state)
-      subject.menu('4444')
-    end
-
-    it 'changes status to "lost"' do
-      expect(console).to receive(:change_state_to).with(:lost_state)
-      console.game.attempts.times { subject.menu('1111') }
+    context 'when lost' do
+      after { console.game.attempts.times { subject.menu('1111') } }
+      it { expect(console).to receive(:change_state_to).with(:lost_state) }
     end
   end
 end
 
 RSpec.describe GameState do
-  subject { GameState.new(console) }
+  subject { described_class.new(console) }
   let(:console) { Console.new }
 
   before do
@@ -86,15 +84,9 @@ RSpec.describe GameState do
   end
 
   context 'when initializing the state' do
-    after do
-      console.change_state_to(:game_state)
-    end
-    it 'calls "interact" method' do
-      expect_any_instance_of(GameState).to receive(:interact)
-    end
+    after { console.change_state_to(:game_state) }
+    it { expect_any_instance_of(GameState).to receive(:interact) }
 
-    it 'calls "play_game" method' do
-      expect_any_instance_of(GameState).to receive(:play_game)
-    end
+    it { expect_any_instance_of(GameState).to receive(:play_game) }
   end
 end

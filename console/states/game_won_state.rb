@@ -13,7 +13,7 @@ class GameWonState < ConsoleState
     input = $stdin.gets.chomp.downcase
     return @console.game.save_game if input == 'yes'
 
-    input == 'no' ? nil : handle_flow(input, method(:ask_save_game))
+    input == 'no' ? nil : handle_exit_or_unexpected(input, method(:ask_save_game))
   end
 
   def ask_new_game
@@ -21,10 +21,10 @@ class GameWonState < ConsoleState
     input = $stdin.gets.chomp.downcase
     return @console.change_state_to(:game_state) if input == 'yes'
 
-    input == 'no' ? exit : handle_flow(input, method(:ask_new_game))
+    input == 'no' ? exit : handle_exit_or_unexpected(input, method(:ask_new_game))
   end
 
-  def handle_flow(input, method)
+  def handle_exit_or_unexpected(input, method)
     super
   end
 end

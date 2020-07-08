@@ -42,46 +42,33 @@ RSpec.describe GameWonState do
 
       context 'when inputting icorrectly' do
         let(:input) { 'incorrect' }
-
-        it 'calls handle_flow' do
-          expect(subject).to receive(:handle_flow)
-          subject.ask_save_game
-        end
+        after { subject.ask_save_game }
+        it { expect(subject).to receive(:handle_exit_or_unexpected) }
       end
     end
 
     context '#ask_new_game' do
       let(:input) { 'yes' }
-
-      it 'changes state' do
-        expect(console).to receive(:change_state_to).with(:game_state)
-        subject.ask_new_game
-      end
+      after { subject.ask_new_game }
+      it { expect(console).to receive(:change_state_to).with(:game_state) }
     end
 
     context '#ask_new_game_end_game' do
       let(:input) { 'no' }
-
-      it 'ends game' do
-        expect { subject.ask_new_game }.to raise_error(SystemExit)
-      end
+      it { expect { subject.ask_new_game }.to raise_error(SystemExit) }
     end
 
     context 'when inputting icorrectly' do
       let(:input) { 'incorrect' }
-
-      it 'calls handle_flow' do
-        expect(subject).to receive(:handle_flow)
-        subject.ask_new_game
-      end
+      after { subject.ask_new_game }
+      it { expect(subject).to receive(:handle_exit_or_unexpected) }
     end
 
-    context '#handle_flow' do
+    context '#handle_exit_or_unexpected' do
       let(:input) { 'incorrect' }
+      let(:message) { I18n.t(:unexpected_command) }
 
-      it 'show unexpected command error' do
-        expect { subject.handle_flow(input, method) }.to output(I18n.t(:unexpected_command)).to_stdout
-      end
+      it { expect { subject.handle_exit_or_unexpected(input, method) }.to output(message).to_stdout }
     end
   end
 end

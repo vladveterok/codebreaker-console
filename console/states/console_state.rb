@@ -6,7 +6,7 @@ class ConsoleState
     @console = console
   end
 
-  def handle_flow(input, method)
+  def handle_exit_or_unexpected(input, method)
     raise Console::StopGame if input == 'exit'
 
     puts I18n.t(:unexpected_command)

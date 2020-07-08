@@ -28,11 +28,11 @@ class GameMenuState < ConsoleState
     when 'start' then @console.change_state_to(:registration_state)
     when 'rules' then puts I18n.t(:rules)
     when 'stats' then puts @console.statistics
-    else handle_flow(input, method(:choose_from_menu))
+    else handle_exit_or_unexpected(input, method(:choose_from_menu))
     end
   end
 
-  def handle_flow(input, method)
+  def handle_exit_or_unexpected(input, method)
     super
   end
 end

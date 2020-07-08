@@ -2,24 +2,25 @@
 
 RSpec.describe ConsoleState do
   let(:console) { Console.new }
-  subject { ConsoleState.new(console) }
+  subject { described_class.new(console) }
 
   describe '#interact' do
-    it 'raises NotImplementedError' do
-      expect { subject.interact }.to raise_error(NotImplementedError)
-    end
+    it { expect { subject.interact }.to raise_error(NotImplementedError) }
   end
 
-  describe '#handle_flow' do
+  describe '#handle_exit_or_unexpected' do
     let(:method) { double('method') }
-    it 'raises Console::StopGame' do
-      input = 'exit'
-      expect { subject.handle_flow(input, method) }.to raise_error(Console::StopGame)
+    before { allow(method).to receive(:call) }
+
+    context 'when exiting' do
+      let(:input) { 'exit' }
+      it { expect { subject.handle_exit_or_unexpected(input, method) }.to raise_error(Console::StopGame) }
     end
-    it 'show "unexpected_command"' do
-      allow(method).to receive(:call)
-      input = 'brgf'
-      expect { subject.handle_flow(input, method) }.to output(I18n.t(:unexpected_command)).to_stdout
+
+    context 'when unexpected command' do
+      let(:input) { 'unexpected' }
+      let(:message) { I18n.t(:unexpected_command) }
+      it { expect { subject.handle_exit_or_unexpected(input, method) }.to output(message).to_stdout }
     end
   end
 end

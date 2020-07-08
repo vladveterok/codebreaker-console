@@ -12,54 +12,37 @@ RSpec.describe GameRegistrationState do
       allow(console).to receive(:create_game)
       allow(subject).to receive(:ask_difficulty)
     end
-    it 'calls #create_game_instances' do
-      expect(subject).to receive(:create_game_instances)
-      subject.interact
-    end
+    after { subject.interact }
 
-    it 'does not call ask name' do
-      expect(subject).not_to receive(:ask_name)
-      subject.interact
-    end
+    it { expect(subject).to receive(:create_game_instances) }
+
+    it { expect(subject).not_to receive(:ask_name) }
   end
 
   describe '#create_game_instances' do
     before { allow(console).to receive(:create_user) }
     before { allow(console).to receive(:create_game) }
+    after { subject.create_game_instances }
 
     it 'calls ask_name' do
       allow(subject).to receive(:ask_difficulty)
       expect(subject).to receive(:ask_name)
-      subject.create_game_instances
     end
 
     it 'calls ask_difficulty' do
       allow(subject).to receive(:ask_name)
       expect(subject).to receive(:ask_difficulty)
-      subject.create_game_instances
     end
   end
 
   describe 'with inputs' do
     before { allow($stdin).to receive(:gets).and_return(*input) }
 
-    describe '#ask_name' do
+    describe '#ask_name and #ask difficulty' do
       context 'when input is exit' do
         let(:input) { 'exit' }
-
-        it 'exits' do
-          expect { subject.ask_name }.to raise_error(Console::StopGame)
-        end
-      end
-    end
-
-    describe '#ask_difficulty' do
-      context 'when input is exit' do
-        let(:input) { 'exit' }
-
-        it 'exits' do
-          expect { subject.ask_difficulty }.to raise_error(Console::StopGame)
-        end
+        it { expect { subject.ask_name }.to raise_error(Console::StopGame) }
+        it { expect { subject.ask_difficulty }.to raise_error(Console::StopGame) }
       end
     end
 
