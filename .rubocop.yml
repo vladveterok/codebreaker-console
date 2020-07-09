@@ -9,5 +9,7 @@ AllCops:
       # - 'Gemfile'
       - 'index.rb'
       - '_test_folder/*'
+      - vendor/bundle/**/*
+
 Metrics/BlockLength:
   ExcludedMethods: ['describe', 'context']
