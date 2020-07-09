@@ -10,6 +10,14 @@ class Console
 
   attr_reader :user, :game, :state
 
+  STATES = {
+    menu_state: GameMenuState,
+    registration_state: GameRegistrationState,
+    game_state: GameState,
+    won_state: GameWonState,
+    lost_state: GameLostState
+  }.freeze
+
   FANCY_CLUES = {
     1 => '+',
     2 => '-',
@@ -40,13 +48,6 @@ class Console
   end
 
   def states(state)
-    states ||= {}.merge(
-      menu_state: GameMenuState,
-      registration_state: GameRegistrationState,
-      game_state: GameState,
-      won_state: GameWonState,
-      lost_state: GameLostState
-    )
-    states[state].new(self)
+    STATES[state].new(self)
   end
 end
