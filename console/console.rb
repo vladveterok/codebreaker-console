@@ -8,9 +8,7 @@ class Console
 
   include Statistics
 
-  attr_reader :user
-  attr_reader :game
-  attr_reader :state
+  attr_reader :user, :game, :state
 
   FANCY_CLUES = {
     1 => '+',
