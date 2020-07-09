@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
-
 RSpec.describe Console do
   subject { described_class.new }
-  let(:state) { ConsoleState.new(subject) }
 
   context 'when play' do
     before do

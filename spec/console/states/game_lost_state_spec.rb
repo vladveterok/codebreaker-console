@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
-
 RSpec.describe GameLostState do
   subject { described_class.new(console) }
   let(:console) { Console.new }

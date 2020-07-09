@@ -19,7 +19,7 @@ class GameWonState < ConsoleState
   def ask_new_game
     puts I18n.t(:ask_new_game)
     input = $stdin.gets.chomp.downcase
-    return @console.change_state_to(:game_state) if input == 'yes'
+    return change_state_to(:game_state) if input == 'yes'
 
     input == 'no' ? exit : handle_exit_or_unexpected(input, method(:ask_new_game))
   end

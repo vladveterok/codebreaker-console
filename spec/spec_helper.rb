@@ -4,6 +4,8 @@ require 'simplecov'
 SimpleCov.start
 require 'stringio'
 
+require 'pry'
+
 # Substitutes name for a db file 'results.yml' while testing
 ENV['DB_PATH'] = "#{Pathname(__FILE__).parent.dirname.realpath}/db/"
 ENV['DB_FILE'] = 'results_test.yml'

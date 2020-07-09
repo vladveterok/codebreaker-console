@@ -51,8 +51,4 @@ class Console
     )
     states[state].new(self)
   end
-
-  # def init_game(difficulty:, user:)
-  #  @game = Codebreaker::Game.new(difficulty: difficulty, user: user)
-  # end
 end

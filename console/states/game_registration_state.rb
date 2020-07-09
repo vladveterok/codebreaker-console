@@ -5,7 +5,6 @@ class GameRegistrationState < ConsoleState
   def interact
     create_game_instances
     change_state_to(:game_state)
-    # @console.change_state_to(:game_state)
   rescue Codebreaker::Validation::GameError => e
     puts e.message
     retry
