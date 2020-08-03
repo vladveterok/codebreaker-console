@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
-
-# Needs a class documentation
 class ConsoleState
   def initialize(console)
     @console = console

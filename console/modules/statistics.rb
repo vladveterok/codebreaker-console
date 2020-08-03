@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# Gets raw ojects and decorates the data
 module Statistics
   def statistics
     decorate_data.sort_by { |object| [object[:attempts_total], object[:attempts_used], object[:hints_used]] }

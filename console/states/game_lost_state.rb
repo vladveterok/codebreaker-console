@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# Needs a class documentation
 class GameLostState < ConsoleState
   def interact
     puts I18n.t(:game_lost, code: @console.game.very_secret_code)

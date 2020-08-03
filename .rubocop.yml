@@ -3,13 +3,9 @@ AllCops:
   NewCops: enable
   DisplayCopNames: true
   DisplayStyleGuide: true
-  Exclude:
-      - 'db/**/*'
-      - '.git/**/*'
-      # - 'Gemfile'
-      - 'index.rb'
-      - '_test_folder/*'
-      - vendor/bundle/**/*
 
 Metrics/BlockLength:
   ExcludedMethods: ['describe', 'context']
+
+Style/Documentation:
+  Enabled: false

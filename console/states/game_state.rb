@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# Needs a class documentation
 class GameState < ConsoleState
   def interact
     @console.game.start_new_game

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# Needs a class documentation
 class GameRegistrationState < ConsoleState
   def interact
     create_game_instances

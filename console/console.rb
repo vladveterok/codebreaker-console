@@ -2,7 +2,6 @@
 
 require_relative '../bootstrap'
 
-# Needs a class documentation
 class Console
   class StopGame < StandardError; end
 
