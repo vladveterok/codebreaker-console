@@ -29,9 +29,9 @@ en:
   ask_user_name: "\nTell me yier name, bugger!\n"
   
   ask_difficulty: "\nChoose difficultey, mate!
-      \nEasy - 15 attempts, 2 hints
-      \nMedium - 10 attempts, 1 hint
-      \nHell - 5 attempts, 1 hint (and you're actually going to hell if lose)
+      \n%{easy}
+      \n%{medium}
+      \n%{hard}
       \n"
 
 # GameState:
