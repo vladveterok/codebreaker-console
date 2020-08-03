@@ -35,7 +35,7 @@ en:
       \n"
 
 # GameState:
-  ask_guess: "Enter four digits from 1 to 6, take hint, or press exit"
+  ask_guess: "Enter %{length} digits from %{min} to %{max}, take %{hint}, or press %{exit}"
   your_guess_is: "Your guess is: %{guess}"
   show_clues: "%{clues}"
   show_hint: "The hint is: %{hint}"

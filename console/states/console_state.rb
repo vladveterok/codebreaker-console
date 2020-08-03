@@ -19,7 +19,7 @@ class ConsoleState
 
   CODE_LENGTH = 4
   # DIGIT_MAX = 6
-  DIGIT_MIN_MAX = (1..6).freeze
+  DIGIT_MIN_MAX = [1, 6].freeze
 
   def initialize(console)
     @console = console
