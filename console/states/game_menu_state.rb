@@ -28,7 +28,7 @@ class GameMenuState < ConsoleState
     end
   end
 
-  def handle_exit_or_unexpected(input, method)
-    super
-  end
+  # def handle_exit_or_unexpected(input, method)
+  #  super
+  # end
 end
