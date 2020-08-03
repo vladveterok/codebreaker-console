@@ -21,9 +21,9 @@ class GameMenuState < ConsoleState
 
   def menu(input)
     case input
-    when 'start' then change_state_to(:registration_state)
-    when 'rules' then puts I18n.t(:rules)
-    when 'stats' then puts @console.statistics
+    when COMMANDS[:start] then change_state_to(:registration_state)
+    when COMMANDS[:rules] then puts I18n.t(:rules)
+    when COMMANDS[:stats] then puts @console.statistics
     else handle_exit_or_unexpected(input, method(:choose_from_menu))
     end
   end

@@ -1,12 +1,22 @@
 # frozen_string_literal: true
 
 class ConsoleState
+  COMMANDS = {
+    exit: 'exit',
+    start: 'start',
+    rules: 'rules',
+    stats: 'stats',
+    hint: 'hint',
+    yes: 'yes',
+    no: 'no'
+  }.freeze
+
   def initialize(console)
     @console = console
   end
 
   def handle_exit_or_unexpected(input, method)
-    raise Console::StopGame if input == 'exit'
+    raise Console::StopGame if input == COMMANDS[:exit]
 
     puts I18n.t(:unexpected_command)
     method.call

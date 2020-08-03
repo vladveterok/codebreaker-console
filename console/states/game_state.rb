@@ -20,9 +20,9 @@ class GameState < ConsoleState
   end
 
   def menu(input)
-    return puts I18n.t(:show_hint, hint: @console.game.show_hint) if input == 'hint'
+    return puts I18n.t(:show_hint, hint: @console.game.show_hint) if input == COMMANDS[:hint]
 
-    input == 'exit' ? (raise Console::StopGame) : guess_handler(input)
+    input == COMMANDS[:exit] ? (raise Console::StopGame) : guess_handler(input)
 
     change_state_if_won_or_lost
   end
