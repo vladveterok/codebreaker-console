@@ -31,8 +31,8 @@ RSpec.describe GameState do
     end
 
     it 'calles guess_handler' do
-      expect(game_state).to receive(:guess_handler).with('1234')
-      game_state.menu('1234')
+      expect(game_state).to receive(:guess_handler).with(game_code.join)
+      game_state.menu(game_code.join)
     end
   end
 
@@ -48,7 +48,7 @@ RSpec.describe GameState do
     end
 
     context 'when guess is valid' do
-      let(:clues) { I18n.t(:show_clues, clues: game_state.show_fancy_clues) }
+      let(:correct_clues) { %w[+ + + +] }
       let(:guess_range) { ConsoleState::DIGIT_MIN_MAX.min..ConsoleState::DIGIT_MIN_MAX.max }
       let(:correct_guess) { ConsoleState::CODE_LENGTH.times.map { rand(guess_range) }.join }
 
@@ -57,8 +57,8 @@ RSpec.describe GameState do
       end
 
       it 'shows player clues' do
-        expect { game_state.guess_handler('1234') }
-          .to output(/#{clues}/).to_stdout
+        expect { game_state.guess_handler(game_code.join) }
+          .to output(/#{correct_clues}/).to_stdout
       end
     end
   end
@@ -74,7 +74,7 @@ RSpec.describe GameState do
     end
 
     context 'when lost' do
-      let(:wrong_guess) { '1111' }
+      let(:wrong_guess) { game_code.shuffle.join }
 
       it do
         expect(game_state).to receive(:change_state_to).with(:lost_state)
