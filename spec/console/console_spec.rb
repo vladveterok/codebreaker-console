@@ -4,7 +4,7 @@ RSpec.describe Console do
   subject(:console) { described_class.new }
 
   let(:code) { [4, 4, 4, 4] }
-  let(:name) { 'TestFoo' }
+  let(:name) { 'a' * Codebreaker::User::NAME_LENGTH.min }
   let(:start) { ConsoleState::COMMANDS[:start] }
   let(:exit) { ConsoleState::COMMANDS[:exit] }
   let(:yes) { ConsoleState::COMMANDS[:yes] }
@@ -36,7 +36,7 @@ RSpec.describe Console do
     end
 
     context 'when won and was not saved' do
-      let(:name2) { 'TestFoo2' }
+      let(:name2) { 'b' * Codebreaker::User::NAME_LENGTH.min }
       let(:input) { [start, name2, difficulty, code.join, no, exit] }
 
       it { expect { console.statistics }.to raise_error(Codebreaker::Validation::NoSavedData) }

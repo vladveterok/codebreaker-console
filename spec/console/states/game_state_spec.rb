@@ -5,7 +5,7 @@ RSpec.describe GameState do
 
   let(:console) { Console.new }
   let(:name) { 'TestFoo' }
-  let(:game_code) { [4, 4, 4, 4] }
+  let(:game_code) { Codebreaker::Game::CODE_LENGTH.times.map { rand(Codebreaker::Game::DIGIT_MIN_MAX) }.shuffle! }
 
   before do
     console.create_user(name: name)
@@ -37,7 +37,7 @@ RSpec.describe GameState do
   end
 
   describe '#guess_handler' do
-    context 'when invalid guess is made' do
+    context 'when guess is invalid' do
       let(:input) { %w[11 12345 4567 0000 foobar] }
 
       it "raises InvalidGuess error #{:input.length} times" do
@@ -65,7 +65,7 @@ RSpec.describe GameState do
 
   describe '#change_state_if_won_or_lost' do
     context 'when won' do
-      let(:right_guess) { '4444' }
+      let(:right_guess) { game_code.join }
 
       after { game_state.menu(right_guess) }
 

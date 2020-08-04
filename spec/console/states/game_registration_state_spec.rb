@@ -56,7 +56,7 @@ RSpec.describe GameRegistrationState do
   end
 
   context 'when changing the state' do
-    let(:name) { 'TestName' }
+    let(:name) { 'a' * Codebreaker::User::NAME_LENGTH.min }
     let(:difficulty) { ConsoleState::DIFFICULTY_NAMES[:easy] }
     let(:input) { [name, difficulty] }
 

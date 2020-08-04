@@ -5,10 +5,11 @@ RSpec.describe GameWonState do
 
   let(:console) { Console.new }
   let(:method) { instance_double('Method') }
+  let(:name) { 'a' * Codebreaker::User::NAME_LENGTH.min }
 
   describe '#interact' do
     before do
-      console.create_user(name: 'TestFoo')
+      console.create_user(name: name)
       console.create_game(difficulty: ConsoleState::DIFFICULTY_NAMES[:hell])
       allow(won_state).to receive(:ask_save_game)
       allow(won_state).to receive(:ask_new_game)
@@ -29,12 +30,12 @@ RSpec.describe GameWonState do
       let(:input) { commands[:yes] }
 
       before do
-        console.create_user(name: 'TestFoo')
+        console.create_user(name: name)
         console.create_game(difficulty: ConsoleState::DIFFICULTY_NAMES[:hell])
         won_state.ask_save_game
       end
 
-      it { expect(console.statistics[0][:name]).to eq('TestFoo') }
+      it { expect(console.statistics[0][:name]).to eq(name) }
       it { expect(won_state.ask_save_game).to eq console.game.save_game }
     end
 
