@@ -1,56 +1,56 @@
 # frozen_string_literal: true
 
 RSpec.describe GameMenuState do
+  subject(:menu_state) { described_class.new(console) }
+
   let(:console) { Console.new }
-  subject { described_class.new(console) }
 
   describe '#interact' do
     let(:message) { I18n.t(:introduction) }
-    before { allow_any_instance_of(described_class).to receive(:choose_from_menu) }
 
     context 'when starting interraction' do
-      it { expect { console.interact }.to output(message).to_stdout }
+      it do
+        allow(menu_state).to receive(:choose_from_menu)
+        expect { menu_state.interact }.to output(message).to_stdout
+      end
     end
 
     context 'when input is exit' do
-      it { expect { subject.menu('exit') }.to raise_error(Console::StopGame) }
+      it { expect { menu_state.menu(ConsoleState::COMMANDS[:exit]) }.to raise_error(Console::StopGame) }
     end
   end
 
   describe '#choose_from_menu' do
-    after { subject.interact }
-    it { expect(subject).to receive(:choose_from_menu) }
+    after { menu_state.interact }
+
+    it { expect(menu_state).to receive(:choose_from_menu) }
   end
 
   describe '#menu' do
+    let(:commands) { ConsoleState::COMMANDS }
+    let(:incorrect_input) { 'incorrect' }
+
     context 'when input is "rules"' do
-      let(:input) { 'rules' }
-      it { expect { subject.menu(input) }.to output(I18n.t(:rules)).to_stdout }
+      let(:input) { commands[:rules] }
+
+      it { expect { menu_state.menu(input) }.to output(I18n.t(:rules)).to_stdout }
     end
 
     context 'when input is "stats" and stats are empty' do
-      let(:input) { 'stats' }
-      it { expect { subject.menu(input) }.to raise_error('No saved data is found') }
+      let(:input) { commands[:stats] }
+      let(:no_saved_data) { Codebreaker::Validation::NoSavedData }
+
+      it { expect { menu_state.menu(input) }.to raise_error(no_saved_data) }
     end
 
-    context 'when input is incorrectttt' do
-      let(:input) { 'statttts' }
-      let(:message) { I18n.t(:unexpected_command) }
-      let(:method) { double('method') }
-      before { allow($stdin).to receive(:gets).and_return(*input) }
-      before { allow(method).to receive(:call) }
+    context 'when changing the state' do
+      let(:input) { commands[:start] }
 
-      it 'show unexpected command error' do
-        expect { subject.handle_exit_or_unexpected(input, method) }.to output(message).to_stdout
+      it do
+        allow(menu_state).to receive(:loop).and_yield
+        expect(menu_state).to receive(:change_state_to).with(:registration_state)
+        menu_state.menu(input)
       end
-    end
-
-    context 'when input is "start"' do
-      let(:input) { 'start' }
-      before { allow(subject).to receive(:loop).and_yield }
-      after { subject.menu(input) }
-
-      it { expect(console).to receive(:change_state_to).with(:registration_state) }
     end
   end
 end

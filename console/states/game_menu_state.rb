@@ -27,8 +27,4 @@ class GameMenuState < ConsoleState
     else handle_exit_or_unexpected(input, method(:choose_from_menu))
     end
   end
-
-  # def handle_exit_or_unexpected(input, method)
-  #  super
-  # end
 end

@@ -17,8 +17,13 @@ class ConsoleState
     hell: 'Hell - 5 attempts, 1 hint (and you\'re actually going to hell if lose'
   }.freeze
 
+  DIFFICULTY_NAMES = {
+    easy: 'easy',
+    medium: 'medium',
+    hell: 'hell'
+  }.freeze
+
   CODE_LENGTH = 4
-  # DIGIT_MAX = 6
   DIGIT_MIN_MAX = [1, 6].freeze
 
   def initialize(console)

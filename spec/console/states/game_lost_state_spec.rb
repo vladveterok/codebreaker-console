@@ -1,49 +1,56 @@
 # frozen_string_literal: true
 
 RSpec.describe GameLostState do
-  subject { described_class.new(console) }
+  subject(:lost_state) { described_class.new(console) }
+
   let(:console) { Console.new }
-  let(:method) { double('Method') }
+  let(:method) { instance_double('Method') }
 
-  context '#interact' do
-    before do
-      console.create_user(name: 'TestFoo')
-      console.create_game(difficulty: 'hell')
-      allow(subject).to receive(:ask_new_game)
+  describe '#interact' do
+    it do
+      console.create_game(difficulty: ConsoleState::DIFFICULTY_NAMES[:hell])
+      allow(lost_state).to receive(:ask_new_game)
+      expect { lost_state.interact }.to output("#{I18n.t(:game_lost, code: '')}\n").to_stdout
     end
-
-    it { expect { subject.interact }.to output("#{I18n.t(:game_lost, code: [])}\n").to_stdout }
   end
 
-  context 'whis user input' do
-    before { allow($stdin).to receive(:gets).and_return(*input) }
-    before { allow(method).to receive(:call) }
+  context 'with user input' do
+    let(:commands) { ConsoleState::COMMANDS }
 
-    context '#ask_new_game' do
-      let(:input) { 'yes' }
-      after { subject.ask_new_game }
-
-      it { expect(console).to receive(:change_state_to).with(:game_state) }
+    before do
+      allow($stdin).to receive(:gets).and_return(*input)
+      allow(method).to receive(:call)
     end
 
-    context '#ask_new_game_end_game' do
-      let(:input) { 'no' }
+    describe '#ask_new_game' do
+      let(:input) { commands[:yes] }
 
-      it { expect { subject.ask_new_game }.to raise_error(SystemExit) }
+      it do
+        expect(lost_state).to receive(:change_state_to).with(:game_state)
+        lost_state.ask_new_game
+      end
+    end
+
+    describe '#ask_new_game_end_game' do
+      let(:input) { commands[:no] }
+
+      it { expect { lost_state.ask_new_game }.to raise_error(SystemExit) }
     end
 
     context 'when inputting icorrectly' do
       let(:input) { 'incorrect' }
-      after { subject.ask_new_game }
 
-      it { expect(subject).to receive(:handle_exit_or_unexpected) }
+      it do
+        expect(lost_state).to receive(:handle_exit_or_unexpected)
+        lost_state.ask_new_game
+      end
     end
 
     context 'when calling handle_exit_or_unexpected' do
       let(:input) { 'incorrect' }
       let(:message) { I18n.t(:unexpected_command) }
 
-      it { expect { subject.handle_exit_or_unexpected(input, method) }.to output(message).to_stdout }
+      it { expect { lost_state.handle_exit_or_unexpected(input, method) }.to output(message).to_stdout }
     end
   end
 end

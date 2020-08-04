@@ -22,8 +22,4 @@ class GameWonState < ConsoleState
 
     input == COMMANDS[:no] ? exit : handle_exit_or_unexpected(input, method(:ask_new_game))
   end
-
-  # def handle_exit_or_unexpected(input, method)
-  #  super
-  # end
 end

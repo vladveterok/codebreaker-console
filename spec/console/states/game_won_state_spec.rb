@@ -1,74 +1,81 @@
 # frozen_string_literal: true
 
 RSpec.describe GameWonState do
-  subject { described_class.new(console) }
-  let(:console) { Console.new }
-  let(:method) { double('Method') }
+  subject(:won_state) { described_class.new(console) }
 
-  context '#interact' do
+  let(:console) { Console.new }
+  let(:method) { instance_double('Method') }
+
+  describe '#interact' do
     before do
       console.create_user(name: 'TestFoo')
-      console.create_game(difficulty: 'hell')
-      allow(subject).to receive(:ask_save_game)
-      allow(subject).to receive(:ask_new_game)
+      console.create_game(difficulty: ConsoleState::DIFFICULTY_NAMES[:hell])
+      allow(won_state).to receive(:ask_save_game)
+      allow(won_state).to receive(:ask_new_game)
     end
 
-    it { expect { subject.interact }.to output("#{I18n.t(:game_won, code: [])}\n").to_stdout }
+    it { expect { won_state.interact }.to output("#{I18n.t(:game_won, code: '')}\n").to_stdout }
   end
 
   context 'with user input' do
-    before { allow($stdin).to receive(:gets).and_return(*input) }
-    before { allow(method).to receive(:call) }
+    let(:commands) { ConsoleState::COMMANDS }
 
-    context '#ask_save_game' do
-      context 'when saving the game' do
-        let(:input) { 'yes' }
+    before do
+      allow($stdin).to receive(:gets).and_return(*input)
+      allow(method).to receive(:call)
+    end
 
-        before do
-          console.create_user(name: 'TestFoo')
-          console.create_game(difficulty: 'hell')
-          subject.ask_save_game
-        end
+    context 'when saving the game' do
+      let(:input) { commands[:yes] }
 
-        it { expect(console.statistics[0][:name]).to eq('TestFoo') }
-        it { expect(subject.ask_save_game).to eq console.game.save_game }
+      before do
+        console.create_user(name: 'TestFoo')
+        console.create_game(difficulty: ConsoleState::DIFFICULTY_NAMES[:hell])
+        won_state.ask_save_game
       end
 
-      context 'when input is "no"' do
-        let(:input) { 'no' }
+      it { expect(console.statistics[0][:name]).to eq('TestFoo') }
+      it { expect(won_state.ask_save_game).to eq console.game.save_game }
+    end
 
-        it { expect(subject.ask_save_game).to eq nil }
-      end
+    context 'when inputting icorrectly while saving' do
+      let(:input) { 'incorrect' }
 
-      context 'when inputting icorrectly' do
-        let(:input) { 'incorrect' }
-        after { subject.ask_save_game }
-        it { expect(subject).to receive(:handle_exit_or_unexpected) }
+      it do
+        expect(won_state).to receive(:handle_exit_or_unexpected)
+        won_state.ask_save_game
       end
     end
 
-    context '#ask_new_game' do
-      let(:input) { 'yes' }
-      after { subject.ask_new_game }
-      it { expect(console).to receive(:change_state_to).with(:game_state) }
+    describe '#ask_new_game' do
+      let(:input) { commands[:yes] }
+
+      it do
+        expect(won_state).to receive(:change_state_to).with(:game_state)
+        won_state.ask_new_game
+      end
     end
 
-    context '#ask_new_game_end_game' do
-      let(:input) { 'no' }
-      it { expect { subject.ask_new_game }.to raise_error(SystemExit) }
+    describe '#ask_new_game_end_game' do
+      let(:input) { commands[:no] }
+
+      it { expect { won_state.ask_new_game }.to raise_error(SystemExit) }
     end
 
     context 'when inputting icorrectly' do
       let(:input) { 'incorrect' }
-      after { subject.ask_new_game }
-      it { expect(subject).to receive(:handle_exit_or_unexpected) }
+
+      it do
+        expect(won_state).to receive(:handle_exit_or_unexpected)
+        won_state.ask_new_game
+      end
     end
 
-    context '#handle_exit_or_unexpected' do
+    describe '#handle_exit_or_unexpected' do
       let(:input) { 'incorrect' }
       let(:message) { I18n.t(:unexpected_command) }
 
-      it { expect { subject.handle_exit_or_unexpected(input, method) }.to output(message).to_stdout }
+      it { expect { won_state.handle_exit_or_unexpected(input, method) }.to output(message).to_stdout }
     end
   end
 end
