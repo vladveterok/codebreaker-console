@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/vladveterok/codebreaker-gem.git
-  revision: b71f16f52e01addf64e4a00e823f285dfbac213c
-  branch: gem/iteration2
+  revision: d9119198383cb91479fcc51e4d48dc3eaa5e21b9
+  branch: develop
   specs:
     codebreaker (0.1.0)
 
