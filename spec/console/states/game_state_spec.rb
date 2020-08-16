@@ -5,7 +5,7 @@ RSpec.describe GameState do
 
   let(:console) { Console.new }
   let(:name) { 'TestFoo' }
-  let(:game_code) { Codebreaker::Game::CODE_LENGTH.times.map { rand(Codebreaker::Game::DIGIT_MIN_MAX) }.shuffle! }
+  let(:game_code) { Codebreaker::Game::CODE_LENGTH.times.map { rand(Codebreaker::Game::RANGE_GUESS_CODE) }.shuffle! }
 
   before do
     console.create_user(name: name)
