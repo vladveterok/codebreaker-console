@@ -16,6 +16,6 @@ module Statistics
   end
 
   def load_data
-    Codebreaker::Game.load
+    Codebreaker::FileLoader.new.load
   end
 end

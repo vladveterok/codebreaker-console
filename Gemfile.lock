@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/vladveterok/codebreaker-gem.git
-  revision: b9f94216f2821108d67cbfa529a35d242440b3a0
+  revision: a4672cfb135a079a5ed31b7361a24b820ae7c1f7
   branch: develop
   specs:
     codebreaker (0.1.0)
