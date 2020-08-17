@@ -32,6 +32,7 @@ class GameState < ConsoleState
   def guess_handler(input)
     puts I18n.t(:your_guess_is, guess: input)
     @console.game.guess(input)
+    # puts "very secret code is #{@console.game.very_secret_code}" # for testing purposes
     puts I18n.t(:show_clues, clues: show_fancy_clues)
   end
 
