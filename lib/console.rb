@@ -16,8 +16,8 @@ class Console
   }.freeze
 
   FANCY_CLUES = {
-    1 => '+',
-    2 => '-'
+    exact: '+',
+    non_exact: '-'
   }.freeze
 
   def initialize
