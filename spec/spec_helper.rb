@@ -7,7 +7,6 @@ require 'stringio'
 require 'pry'
 
 ENV['DB_PATH'] = "#{Pathname(__FILE__).parent.dirname.realpath}/db/"
-ENV['DB_FILE'] = 'results_test.yml'
 
 require_relative '../bootstrap'
 
@@ -22,7 +21,11 @@ RSpec.configure do |config|
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
+  config.before do
+    stub_const('Codebreaker::FileLoader::FILE_PATH', "#{ENV['DB_PATH']}/results_test.yml")
+  end
+
   config.after do
-    FileUtils.rm_rf(Dir[ENV['DB_PATH']])
+    File.delete(Codebreaker::FileLoader::FILE_PATH) if File.exist?(Codebreaker::FileLoader::FILE_PATH)
   end
 end
