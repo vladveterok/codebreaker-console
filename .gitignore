@@ -1,0 +1,9 @@
+/_test_folder
+/db
+/coverage/
+/pkg/
+.DS_Store
+*txt
+*yaml
+.DS_Store
+.byebug_history

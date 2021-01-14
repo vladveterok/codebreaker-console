@@ -1,0 +1,26 @@
+require:
+  - rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 2.7
+  NewCops: enable
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  Exclude:
+    - 'config/application.rb'
+    - vendor/bundle/**/*
+
+Metrics/BlockLength:
+  ExcludedMethods: ['describe', 'context']
+
+Style/Documentation:
+  Enabled: false
+
+RSpec/SubjectStub:
+  Enabled: false
+
+RSpec/MessageSpies:
+  Enabled: false
+
+RSpec/AnyInstance:
+  Enabled: false
